@@ -1,0 +1,28 @@
+/* Spacing, grid, borders, motion — derived from the modular grid (§05 «Модульная сетка») */
+:root{
+--module:8px; /* наименьший повторяемый элемент; размеры блоков кратны модулю */
+--space-0:0;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;--space-9:96px;--space-10:128px;
+
+--container-max:1280px;
+--gutter:24px;
+--page-pad:48px;
+
+/* Corners — фирменные блоки строго прямоугольные */
+--radius-0:0;
+--radius-pill:999px; /* только кнопка-стрелка ⟶ (ссылка на макет) */
+--radius-default:var(--radius-0);
+
+/* Borders — тонкие чёрные линейки макета */
+--border-hair:1px solid var(--pt-black);/* @kind other */
+--border-light:1px solid var(--pt-grey-200);/* @kind other */
+--border-width:1px;/* @kind other */
+
+/* Elevation — бренд не использует тени; единственная для всплывающих слоёв */
+--shadow-none:none;
+--shadow-overlay:0 8px 24px rgba(0,0,0,.16);
+--scrim:rgba(0,0,0,.55);
+
+/* Motion */
+--ease-standard:cubic-bezier(.2,0,0,1);/* @kind other */
+--dur-fast:120ms;/* @kind other */--dur-base:200ms;/* @kind other */--dur-slow:320ms;/* @kind other */
+}

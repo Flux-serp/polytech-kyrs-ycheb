@@ -1,0 +1,62 @@
+<!-- @dsCard group="B2B school" viewport="1440x900" name="B2B school — страница курса" subtitle="Управление B2B-продажами — комплексная программа" -->
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Управление B2B-продажами — комплексная программа — Политех</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="data.js"></script><script src="course-data.js"></script><script src="course3d.js"></script><script src="image-slot.js"></script>
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="course.css"></head>
+<body>
+<div id="root"></div>
+<script>
+(function(){var t=localStorage.getItem('pt-b2b-theme');if(t)document.documentElement.dataset.theme=t;if(localStorage.getItem('pt-b2b-lv'))document.documentElement.setAttribute('data-lv','');})();
+</script>
+<script type="text/babel" src="B2BHeader.jsx"></script>
+<script type="text/babel" src="Courses.jsx"></script>
+<script type="text/babel" src="B2BFooter.jsx"></script>
+<script type="text/babel" src="Overlays.jsx"></script>
+<script type="text/babel" src="Sections.jsx"></script><script type="text/babel" src="CourseTop.jsx"></script><script type="text/babel" src="CourseBottom.jsx"></script>
+<script type="text/babel">
+function App(){
+  const {Toast}=window.DesignSystem_a62ddd;
+  const [theme,setTheme]=React.useState(localStorage.getItem('pt-b2b-theme')||'light');
+  const [lv,setLv]=React.useState(!!localStorage.getItem('pt-b2b-lv'));
+  const [lang,setLang]=React.useState(localStorage.getItem('pt-b2b-lang')||'ru');
+  const [search,setSearch]=React.useState(false),[cab,setCab]=React.useState(false),[menu,setMenu]=React.useState(false);
+  const [toast,setToast]=React.useState(null);
+  const t=window.B2B.i18n[lang];
+  React.useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem('pt-b2b-theme',theme);},[theme]);
+  React.useEffect(()=>{document.documentElement.toggleAttribute('data-lv',lv);lv?localStorage.setItem('pt-b2b-lv','1'):localStorage.removeItem('pt-b2b-lv');},[lv]);
+  React.useEffect(()=>{document.documentElement.lang=lang;localStorage.setItem('pt-b2b-lang',lang);},[lang]);
+  React.useEffect(()=>{document.body.style.overflow=search||menu?'hidden':'';},[search,menu]);
+  React.useEffect(()=>{requestAnimationFrame(()=>document.documentElement.classList.add('ready'));},[]);
+  React.useEffect(()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+    const scan=()=>document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));scan();const mo=new MutationObserver(scan);mo.observe(document.getElementById('root'),{childList:true,subtree:true});return ()=>{io.disconnect();mo.disconnect();};},[]);
+  const go=id=>{location.href=id==='courses'?'courses.html':id==='corporate'?'corporate.html':'index.html'+(id==='home'?'':'#'+id);};
+  const wipe=fn=>{if(document.startViewTransition&&!lv)document.startViewTransition(()=>ReactDOM.flushSync(fn));else fn();};
+  const notify=(title,text)=>{setToast({title,text});clearTimeout(window.__tt);window.__tt=setTimeout(()=>setToast(null),4000);};
+  const ctx={t,lang,theme,lv,active:'courses',search,cab,menu,go,notify,openCourse:c=>{location.href=c&&c.page?c.page:'courses.html#c-'+c.id;},
+    toggleTheme:()=>wipe(()=>setTheme(theme==='dark'?'light':'dark')),
+    toggleLang:()=>wipe(()=>setLang(lang==='ru'?'en':'ru')),
+    toggleLv:()=>setLv(!lv),
+    openSearch:()=>setSearch(true),closeSearch:()=>setSearch(false),
+    openCab:()=>setCab(true),closeCab:()=>setCab(false),toggleMenu:()=>setMenu(!menu)};
+  return <>
+    <SiteHeader ctx={ctx}/>
+    <MobileMenu ctx={ctx}/>
+    <main><CHero ctx={ctx}/><CSubNav ctx={ctx}/><CFormat ctx={ctx}/><CProgram ctx={ctx}/><CStages ctx={ctx}/><CExpect ctx={ctx}/><CTeam ctx={ctx}/><CDoc ctx={ctx}/><CReviews ctx={ctx}/><CApply ctx={ctx}/></main>
+    <SiteFooter ctx={ctx}/>
+    <SearchOverlay ctx={ctx}/>
+    <CabinetDialog ctx={ctx}/>
+    <CookieBar ctx={ctx}/>
+    {toast&&<div className="toastw"><Toast title={toast.title} onClose={()=>setToast(null)}>{toast.text}</Toast></div>}
+  </>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body></html>

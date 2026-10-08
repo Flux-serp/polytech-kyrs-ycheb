@@ -1,0 +1,133 @@
+<!-- @dsCard group="B2B school" viewport="1440x900" name="B2B school — все курсы" subtitle="Хаб-страница каталога курсов" -->
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Все курсы — Школа управления B2B-продажами — Политех</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="data.js"></script><script src="scene.js"></script>
+<link rel="stylesheet" href="site.css">
+<style>
+.hub-hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;align-items:stretch;padding-top:48px;padding-bottom:56px}
+.hub-hero-txt{display:flex;flex-direction:column;gap:28px;justify-content:flex-end}
+.crumbs{display:flex;gap:10px;font:600 13px var(--font-sans);text-transform:uppercase;color:var(--muted)}
+.crumbs a{text-decoration:none}
+.hub-h1{font-size:clamp(48px,6.4vw,104px)}
+.hub-hero-3d{position:relative;min-height:380px;overflow:hidden}
+.hub-hero-3d canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hub-bar{position:sticky;top:64px;z-index:60;background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .4s}
+.hub-bar-in{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;padding-top:16px;padding-bottom:16px}
+.hub-q{display:flex;align-items:center;gap:10px;height:44px;padding:0 6px 0 12px;border:1px solid var(--line);min-width:260px;flex:0 1 300px}
+.hub-q input{flex:1;min-width:0;border:0;outline:0;background:none;color:var(--fg);font:400 16px var(--font-ui)}
+.hub-q:focus-within{border-color:var(--pt-green);box-shadow:inset 0 0 0 1px var(--pt-green)}
+.hub-grp{display:flex;align-items:center;gap:12px}
+.hub-lbl{font:600 12px var(--font-sans);text-transform:uppercase;color:var(--muted)}
+.hub-end{margin-left:auto;display:flex;align-items:center;gap:16px}
+.hub-cnt{font:400 14px var(--font-sans);white-space:nowrap}
+.hub-view{display:flex;gap:2px}
+.hub-list{padding-top:40px;min-height:50vh}
+.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.hub-cell .ccard{width:100%;height:100%}
+.hub-rows{border-top:1px solid var(--line)}
+.hub-row{display:grid;grid-template-columns:72px minmax(0,1fr) 150px 110px 80px 140px 24px;gap:20px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line-soft);text-decoration:none;color:var(--fg);transition:padding .3s var(--ease-standard),background .3s}
+.hub-row:hover{color:var(--fg);padding-left:12px;background:var(--soft)}
+.hub-row-n{font:800 34px/1 var(--font-display)}
+.hub-tone-green{color:var(--pt-green)}.hub-tone-greenDark{color:var(--pt-green-dark)}.hub-tone-orange{color:var(--pt-orange)}.hub-tone-violet{color:var(--pt-violet)}
+.hub-row-m{display:flex;flex-direction:column;gap:6px}
+.hub-row-t{font:800 20px/1.1 var(--font-display);text-transform:uppercase}
+.hub-row-d{font:400 14px/1.45 var(--font-ui);color:var(--muted)}
+.hub-row-w b{font:800 22px var(--font-display)}
+.hub-row-w,.hub-row-s{font:400 14px var(--font-sans)}
+.hub-empty{padding:64px 0;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.hub-empty p{margin:0;font:300 28px var(--font-display);text-transform:uppercase}
+.hub-cta{padding-top:120px}
+.hub-cta-in{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.hub-cta-in>div:first-child{max-width:720px}
+/* drawer */
+.drw{position:fixed;inset:0;z-index:600;pointer-events:none}
+.drw.open{pointer-events:auto}
+.drw-bg{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .4s}
+.drw.open .drw-bg{opacity:1}
+.drw-p{position:absolute;top:0;right:0;bottom:0;width:min(600px,100%);background:var(--bg);color:var(--fg);overflow:auto;clip-path:inset(0 0 0 100%);transition:clip-path .6s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column}
+.drw.open .drw-p{clip-path:inset(0)}
+.drw-top{min-height:260px;display:flex;flex-direction:column;justify-content:space-between}
+.drw-nav{display:flex;gap:6px}
+.drw-ib{color:#fff;border-color:rgba(255,255,255,.6)}
+.drw-ib:hover{border-color:#fff;background:#fff;color:#000}
+.drw-n{font:800 140px/.8 var(--font-display);color:#fff;animation:numIn .6s cubic-bezier(.2,.8,.2,1)}
+.drw-b{padding:28px;display:flex;flex-direction:column;gap:18px;flex:1;animation:drwIn .5s var(--ease-standard)}
+@keyframes drwIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.drw-t{margin:0;font:800 clamp(28px,3vw,40px)/1 var(--font-display);text-transform:uppercase}
+.drw-d{margin:0;font:300 20px/1.4 var(--font-display)}
+.drw-meta{margin:8px 0 0;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.drw-meta div{padding:16px 16px 16px 0;border-bottom:1px solid var(--line-soft)}
+.drw-meta div:nth-child(2n){padding-left:16px;border-left:1px solid var(--line-soft)}
+.drw-meta dt{font:600 12px var(--font-sans);text-transform:uppercase;color:var(--muted)}
+.drw-meta dd{margin:6px 0 0;font:700 18px/1.25 var(--font-display);text-transform:uppercase}
+.drw-f{margin-top:auto;padding-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+/* filter transitions: animate cards only, no page wipe */
+html.vt-f::view-transition-old(root),html.vt-f::view-transition-new(root){animation:none}
+::view-transition-group(*){animation-duration:.55s;animation-timing-function:cubic-bezier(.7,0,.2,1)}
+@media(min-width:1800px){.hub-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1180px){.hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-row{grid-template-columns:60px minmax(0,1fr) 110px 24px}.hub-row .ccard-cat,.hub-row-w,.hub-row-s{display:none}.hub-end{margin-left:0}}
+@media(max-width:900px){.hub-hero{grid-template-columns:minmax(0,1fr);gap:32px;padding-top:32px}.hub-h1{font-size:clamp(34px,10vw,88px)}.hub-hero-3d{min-height:220px}.hub-bar{position:static}.hub-q{flex:1 1 100%;min-width:0}.hub-grp{flex-wrap:wrap}.hub-cta{padding-top:80px}.hub-cta-in{padding:32px 24px!important}}
+@media(max-width:600px){.hub-grid{grid-template-columns:minmax(0,1fr);gap:16px}.hub-bar-in{gap:14px}.hub-end{width:100%;justify-content:space-between}
+.hub-row{grid-template-columns:40px minmax(0,1fr) 20px;gap:12px;padding:18px 0}.hub-row>.badge,.hub-row>span:nth-child(4){display:none}.hub-row-n{font-size:24px}.hub-row-t{font-size:16px}.hub-row-d{font-size:13px}
+.hub-empty p{font-size:20px}.hub-cta-in{padding:28px 20px!important}.hub-cta-in .btn,.hub-cta-in button{width:100%}
+.drw-top{min-height:200px}.drw-n{font-size:100px}.drw-b{padding:20px}.drw-d{font-size:17px}.drw-meta{grid-template-columns:minmax(0,1fr)}.drw-meta div:nth-child(2n){padding-left:0;border-left:0}.drw-f>*{flex:1 1 100%}}
+</style></head>
+<body>
+<div id="root"></div>
+<script>
+(function(){var t=localStorage.getItem('pt-b2b-theme');if(t)document.documentElement.dataset.theme=t;if(localStorage.getItem('pt-b2b-lv'))document.documentElement.setAttribute('data-lv','');})();
+</script>
+<script type="text/babel" src="B2BHeader.jsx"></script>
+<script type="text/babel" src="Courses.jsx"></script>
+<script type="text/babel" src="B2BFooter.jsx"></script>
+<script type="text/babel" src="Overlays.jsx"></script>
+<script type="text/babel" src="Hub.jsx"></script>
+<script type="text/babel">
+function App(){
+  const {Toast}=window.DesignSystem_a62ddd;
+  const [theme,setTheme]=React.useState(localStorage.getItem('pt-b2b-theme')||'light');
+  const [lv,setLv]=React.useState(!!localStorage.getItem('pt-b2b-lv'));
+  const [lang,setLang]=React.useState(localStorage.getItem('pt-b2b-lang')||'ru');
+  const [search,setSearch]=React.useState(false),[cab,setCab]=React.useState(false),[menu,setMenu]=React.useState(false);
+  const [toast,setToast]=React.useState(null);
+  const [course,setCourse]=React.useState(()=>{const m=location.hash.match(/^#c-(\d+)/);return m?window.B2B.courses.find(c=>c.id===m[1])||null:null;});
+  const t=window.B2B.i18n[lang];
+  React.useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem('pt-b2b-theme',theme);},[theme]);
+  React.useEffect(()=>{document.documentElement.toggleAttribute('data-lv',lv);lv?localStorage.setItem('pt-b2b-lv','1'):localStorage.removeItem('pt-b2b-lv');},[lv]);
+  React.useEffect(()=>{document.documentElement.lang=lang;localStorage.setItem('pt-b2b-lang',lang);},[lang]);
+  React.useEffect(()=>{document.body.style.overflow=search||menu||course?'hidden':'';},[search,menu,course]);
+  React.useEffect(()=>{history.replaceState(null,'',course?'#c-'+course.id:location.pathname+location.search);},[course]);
+  React.useEffect(()=>{requestAnimationFrame(()=>document.documentElement.classList.add('ready'));},[]);
+  React.useEffect(()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+    const scan=()=>document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));scan();const mo=new MutationObserver(scan);mo.observe(document.getElementById('root'),{childList:true,subtree:true});return ()=>{io.disconnect();mo.disconnect();};},[]);
+  const go=id=>{if(id==='courses'||id==='home'&&false){window.scrollTo({top:0,behavior:lv?'auto':'smooth'});return;}location.href=id==='corporate'?'corporate.html':'index.html'+(id==='home'?'':'#'+id);};
+  const wipe=fn=>{if(document.startViewTransition&&!lv)document.startViewTransition(()=>ReactDOM.flushSync(fn));else fn();};
+  const notify=(title,text)=>{setToast({title,text});clearTimeout(window.__tt);window.__tt=setTimeout(()=>setToast(null),4000);};
+  const ctx={t,lang,theme,lv,active:'courses',search,cab,menu,go,notify,openCourse:c=>{if(c&&c.page){location.href=c.page;return;}setCourse(c);},
+    toggleTheme:()=>wipe(()=>setTheme(theme==='dark'?'light':'dark')),
+    toggleLang:()=>wipe(()=>setLang(lang==='ru'?'en':'ru')),
+    toggleLv:()=>setLv(!lv),
+    openSearch:()=>setSearch(true),closeSearch:()=>setSearch(false),
+    openCab:()=>setCab(true),closeCab:()=>setCab(false),toggleMenu:()=>setMenu(!menu)};
+  return <>
+    <SiteHeader ctx={ctx}/>
+    <MobileMenu ctx={ctx}/>
+    <main><CourseHub ctx={ctx}/></main>
+    <SiteFooter ctx={ctx}/>
+    <CourseDrawer ctx={ctx} c={course} onOpen={c=>c&&c.page?(location.href=c.page):setCourse(c)} onClose={()=>setCourse(null)}/>
+    <SearchOverlay ctx={ctx}/>
+    <CabinetDialog ctx={ctx}/>
+    <CookieBar ctx={ctx}/>
+    {toast&&<div className="toastw"><Toast title={toast.title} onClose={()=>setToast(null)}>{toast.text}</Toast></div>}
+  </>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body></html>

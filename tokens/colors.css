@@ -1,0 +1,73 @@
+/* СПбПУ brand colours — from guide_polytech_2025.pdf §03 (RGB values used; guide HEX labels contain typos) */
+:root{
+/* Основной цвет — цвет логотипа и эмблемы. CMYK 75/0/100/0 · Pantone 362C · RAL 6018 */
+--pt-green:#37b34a;
+/* Основной градиент */
+--pt-green-mid:#56975b;   /* POLITECHSPB SPPU MG LG · CMYK 66/10/73/16 */
+--pt-green-dark:#244128;  /* POLITECHSPB SPPU MG DG · CMYK 73/32/76/68 */
+/* Дополнительный градиент №1 — фиолетовый (точные и технические науки) */
+--pt-violet:#724897;      /* SPPU MG LV · Pantone 268C */
+--pt-violet-dark:#373062; /* SPPU MG DV · Pantone 273C */
+/* Дополнительный градиент №2 — оранжевый (гуманитарные и естественные науки) */
+--pt-orange-light:#f39869;/* SPPU MG LO · Pantone 7576C */
+--pt-orange:#db4928;      /* SPPU MG DO · Pantone 7579C */
+/* Ахроматические */
+--pt-black:#000000;
+--pt-white:#ffffff;
+--pt-grey-900:#454343;    /* тёмная подложка (стр. 13) */
+--pt-grey-600:#6b6b6b;
+--pt-grey-400:#a6a6a6;
+--pt-grey-200:#d9d9d9;    /* серая подложка (стр. 13) */
+--pt-grey-100:#ececec;
+--pt-grey-50:#f4f4f4;     /* фон афиш */
+
+/* Gradients — блоки дополнительной графики */
+--grad-green:linear-gradient(90deg,var(--pt-green) 0%,var(--pt-green-mid) 45%,var(--pt-green-dark) 100%);
+--grad-green-block:linear-gradient(135deg,var(--pt-green) 0%,var(--pt-green-mid) 55%,var(--pt-green-dark) 100%);
+--grad-violet:linear-gradient(90deg,var(--pt-violet) 0%,var(--pt-violet-dark) 100%);
+--grad-orange:linear-gradient(90deg,var(--pt-orange) 0%,var(--pt-orange-light) 100%);
+--grad-poster-bg:linear-gradient(180deg,var(--pt-grey-50) 0%,var(--pt-grey-200) 100%);
+--grad-triad-stripe:linear-gradient(90deg,var(--pt-green) 0%,var(--pt-green-mid) 22%,var(--pt-green-dark) 40%,var(--pt-violet) 40%,var(--pt-violet-dark) 65%,var(--pt-orange) 65%,var(--pt-orange-light) 100%);
+
+/* Цвета институтов — только идентификаторы во внутренних коммуникациях */
+--inst-iknik:#522878;  /* Институт компьютерных наук и кибербезопасности */
+--inst-fmi:#184180;    /* Физико-механический институт */
+--inst-ifim:#725e95;   /* Институт физики и математики */
+--inst-immit:#7a808b;  /* Институт машиностроения, материалов и транспорта */
+--inst-vshmop:#990000; /* Высшая школа международных образовательных программ */
+--inst-gi:#fe9920;     /* Гуманитарный институт */
+--inst-ie:#ed601d;     /* Институт энергетики */
+--inst-ipmet:#313595;  /* Институт промышленного менеджмента, экономики и торговли */
+--inst-isi:#28777e;    /* Инженерно-строительный институт */
+--inst-ieit:#4eaace;   /* Институт электроники и телекоммуникаций */
+--inst-iyae:#37b34a;   /* Институт ядерной энергетики */
+--inst-ispo:#009363;   /* Институт среднего профессионального образования */
+--inst-ifksit:#66b934; /* Институт физической культуры, спорта и туризма */
+--inst-ibsib:#11542b;  /* Институт биомедицинских систем и биотехнологий */
+
+/* Semantic aliases */
+--text-primary:var(--pt-black);
+--text-secondary:var(--pt-grey-600);
+--text-muted:var(--pt-grey-400);
+--text-on-color:var(--pt-white);
+--text-accent:var(--pt-green-dark);
+--text-link:var(--pt-black);
+--text-link-hover:var(--pt-green-dark);
+--surface-page:var(--pt-white);
+--surface-subtle:var(--pt-grey-50);
+--surface-muted:var(--pt-grey-100);
+--surface-inverse:var(--pt-black);
+--surface-dark:var(--pt-grey-900);
+--surface-brand:var(--pt-green);
+--border-strong:var(--pt-black);
+--border-default:var(--pt-grey-200);
+--border-subtle:var(--pt-grey-100);
+--accent:var(--pt-green);
+--accent-hover:var(--pt-green-mid);
+--accent-press:var(--pt-green-dark);
+--success:var(--pt-green);
+--warning:var(--pt-orange-light);
+--danger:var(--pt-orange);
+--info:var(--pt-violet);
+--focus-ring:var(--pt-violet);
+}
